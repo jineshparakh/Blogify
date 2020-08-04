@@ -1,14 +1,7 @@
-from flask import Flask, render_template, flash, redirect
-from forms import RegistrationForm, LoginForm
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from models import User, Post
-
-app=Flask(__name__)
-app.config['SECRET_KEY']='be951dcde0aa8ef79d522fe7f3e9e396'
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///site.db'
-
-db=SQLAlchemy(app)
+from flask import render_template, flash, redirect
+from app import app
+from app.forms import RegistrationForm, LoginForm
+from app.models import User, Post
 
 
 posts =[
@@ -49,7 +42,7 @@ def register():
 def login():
     form=LoginForm()
     if form.validate_on_submit():
-        flash(f'Account Created for {form.username.data}!', category='success')
+        flash(f'Login Successful for {form.email.data}!', category='success')
         return redirect('home')
     else:
         flash(f'Login Unsuccessful. Please check the Username and/or Password', 'danger')    
@@ -58,6 +51,3 @@ def login():
 
 
 
-
-if __name__=="__main__":
-    app.run(debug=True)
