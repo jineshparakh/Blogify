@@ -1,3 +1,9 @@
+html[theme='dark-mode'] img{
+  filter: invert(1) hue-rotate(180deg);
+}
+html {
+  transition: color 300ms, background-color 300ms;
+}
 body {
     background: #fafafa;
     color: #333333;
