@@ -3,25 +3,32 @@
     {%if title%}
         <title>Flask Blog - {{title}}</title>
     {%else%}
-        <title>Flask Blog</title>    
-    {%endif%}    
-{%endblock%}    
-    
+        <title>Flask Blog</title>
+    {%endif%}
+    <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js">
+    </script>
+{%endblock%}
+
 
 {%block body%}
+
     {% for post in posts.items%}
         <article class="media content-section">
-            <img src="{{url_for('static',filename='profile_pics/'+post.author.image_file)}}" alt="" class="rounded-circle article-img">
-            <div class="media-body">
+          <img src="{{url_for('static',filename='profile_pics/'+post.author.image_file)}}" alt="" class="rounded-circle article-img">
+          <div class="media-body">
             <div class="article-metadata">
-                <a class="mr-2" href="{{url_for('users.user_posts',post_id=post.id, username=post.author.username)}}">{{ post.author.username }}</a>
-                <small class="text-muted" href='#'>{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
+              <a class="mr-2" href="{{url_for('users.user_posts',post_id=post.id, username=post.author.username)}}">{{ post.author.username }}</a>
+              <small class="text-muted" href='#'>{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
             </div>
             <h2><a class="article-title" href="{{url_for('posts.post', post_id=post.id)}}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-            </div>
+            <span class="article-content" id="{{post.id}}"></span>
+          </div>
         </article>
-
+        <script>
+          s = "{{ post.content }}"
+          $('#{{ post.id }}').html($.parseHTML(s)[0].data)
+          </script>
     {%endfor%}
     {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)%}
         {%if page_num%}

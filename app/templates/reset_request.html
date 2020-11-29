@@ -3,14 +3,14 @@
     {%if title%}
         <title>Flask Blog - {{title}}</title>
     {%else%}
-        <title>Flask Blog</title>    
-    {%endif%}   
-{%endblock%}    
-    
+        <title>Flask Blog</title>
+    {%endif%}
+{%endblock%}
+
 
 {%block body%}
     <div class='content-section'>
-        <form action="", method='POST'>
+        <form action="" method='POST'>
             {{form.hidden_tag()}} <!--Adds a CSRF(Cross sight request forgery) token, helps to prevent forms against forgery attack-->
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Reset Password</legend>
@@ -24,11 +24,11 @@
                             {%endfor%}
                         </div>
 
-                    {%else%}   
+                    {%else%}
                         {{form.email(class='form-control form-control-lg', placeholder='example@example.com')}}
                     {%endif%}
-                
-                    
+
+
                 </div>
             </fieldset>
             <div class="form-group">

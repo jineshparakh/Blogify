@@ -3,10 +3,10 @@
     {%if title%}
         <title>Flask Blog - {{title}}</title>
     {%else%}
-        <title>Flask Blog</title>    
-    {%endif%}    
-{%endblock%}    
-    
+        <title>Flask Blog</title>
+    {%endif%}
+{%endblock%}
+
 
 {%block body%}
         <article class="media content-section">
@@ -42,8 +42,12 @@
                 {%endif%}
             </div>
             <h2 class="article-title">{{ post.title }}</h2>
-            <p class="article-content">{{ post.content }}</p>
+            <span class="article-content" id = 'content'></span>
             </div>
         </article>
+        <script>
+          s = "{{ post.content }}"
+          $('#content').html($.parseHTML(s)[0].data)
+        </script>
 
 {%endblock%}
