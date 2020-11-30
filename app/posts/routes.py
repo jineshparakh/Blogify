@@ -14,8 +14,6 @@ posts=Blueprint('posts', __name__)
 def new_post():
     form=PostForm()
     if form.validate_on_submit():
-
-        print(markdown.markdown(form.content.data).replace('\n', ''))
         post=Post(title=form.title.data, content=markdown.markdown(form.content.data).replace('\n', ''), author=current_user)
         db.session.add(post)
         db.session.commit()
@@ -39,7 +37,7 @@ def update_post(post_id):
     form=PostForm()
     if form.validate_on_submit():
         post.title=form.title.data
-        post.content=form.content.data
+        post.content=markdown.markdown(form.content.data).replace('\n', '')
         db.session.commit()
         flash(f'Your Post has been updated!!', category='success')
         return redirect(url_for('posts.post', post_id=post.id))
