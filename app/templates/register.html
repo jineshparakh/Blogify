@@ -3,12 +3,12 @@
 {%else%}
 <title>Blogify</title>
 {%endif%} {%endblock%} {%block body%}
-<div class="content-section">
+<div class="content-section mt-4">
 	<form action="" , method="POST">
 		{{form.hidden_tag()}}
 		<!--Adds a CSRF(Cross sight request forgery) token, helps to prevent forms against forgery attack-->
 		<fieldset class="form-group">
-			<legend class="border-bottom mb-4">Join Today</legend>
+			<h3 class="border-bottom mb-4">Join Today</h3>
 			<div class="form-group">
 				{{form.username.label(class='form-control-label')}} {%if
 				form.username.errors%} {{form.username(class='form-control

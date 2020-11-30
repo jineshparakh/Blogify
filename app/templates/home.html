@@ -7,95 +7,122 @@
 	type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js"
 ></script>
-{%endblock%} {%block body%} {%if posts.items|length == 0 and not
-current_user.is_authenticated%}
-<div class="alert alert-light">
-	Welcome to Blogify.
-	<a href="{{url_for('users.register')}}" class="alert-link">Register</a> to
-	post now!
-</div>
-{%endif%}
+{%endblock%}
+
+
+{%block body%}
+
+
+{%if posts.items|length == 0 and not current_user.is_authenticated%}
 
 <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark mt-4">
-	<div class="col-md-12 px-0">
-		<a
-			class="mr-2 text-secondary"
-			href="{{url_for('users.user_posts',post_id=featPost.id, username=featPost.author.username)}}"
-			>{{ featPost.author.username }}</a
-		>
-		<small class="text-muted" href="#"
-			>{{ featPost.created_at.strftime('%d-%m-%Y') }}</small
-		>
-		<h1 class="display-4 font-italic text-white">
-			<a
-				href="{{url_for('posts.post', post_id=featPost.id)}}"
-				class="text-white"
-				>{{ featPost.title }}</a
-			>
-		</h1>
-		<p class="lead my-3 text-white" id="feat-content"></p>
-		<a
-			href="{{url_for('posts.post', post_id=featPost.id)}}"
-			class="text-white font-weight-bold lead"
-			>Continue reading...</a
-		>
-	</div>
-	<script>
-		s = '{{ featPost.content }}';
-		$('#feat-content').html($.parseHTML(`${s.substr(0, 500)}...`)[0].data);
-	</script>
+  <div class="col-md-12 px-0">
+  	<h1 class="display-4 text-white">Welcome to Blogify.</h1>
+    <span>
+      <a href="{{url_for('users.register')}}" class="text-white font-weight-bold">Register</a> to
+      post now!
+    </span>
+  </div>
 </div>
 
+{%endif%}
+
+{%if featPost | length > 0 and current_user.is_authenticated%}
+  <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark mt-4">
+  	<div class="col-md-12 px-0">
+  		<a
+  			class="mr-2 text-secondary"
+  			href="{{url_for('users.user_posts',post_id=featPost.id, username=featPost.author.username)}}"
+  			>{{ featPost.author.username }}</a
+  		>
+  		<small class="text-muted" href="#"
+  			>{{ featPost.created_at.strftime('%d-%m-%Y') }}</small
+  		>
+  		<h1 class="display-4 font-italic text-white">
+  			<a
+  				href="{{url_for('posts.post', post_id=featPost.id)}}"
+  				class="text-white"
+  				>{{ featPost.title }}</a
+  			>
+  		</h1>
+  		<p class="lead my-3 text-white" id="feat-content"></p>
+  		<a
+  			href="{{url_for('posts.post', post_id=featPost.id)}}"
+  			class="text-white font-weight-bold lead"
+  			>Continue reading...</a
+  		>
+  	</div>
+  	<script>
+  		s = '{{ featPost.content }}';
+  		$('#feat-content').html($.parseHTML(`${s.substr(0, 500)}...`)[0].data);
+  	</script>
+  </div>
+{%elif  current_user.is_authenticated%}
+  <div class="alert alert-light my-5 text-center">
+    <h1 class="">	Wow such empty.</h1>
+  	<a href="{{url_for('posts.new_post')}}" class="text-white text-wrap btn btn-primary  btn-lg">Post now!</a>
+  </div>
+{%endif%}
+
 {% for post in range(1, posts.items | length) %}
-<article class="media content-section">
-	<img
-		src="{{url_for('static',filename='profile_pics/'+posts.items[post].author.image_file)}}"
-		alt=""
-		class="rounded-circle article-img"
-	/>
-	<div class="media-body">
-		<div class="article-metadata">
-			<a
-				class="mr-2"
-				href="{{url_for('users.user_posts',post_id=posts.items[post].id, username=posts.items[post].author.username)}}"
-				>{{ posts.items[post].author.username }}</a
-			>
-			<small class="text-muted" href="#"
-				>{{ posts.items[post].created_at.strftime('%d-%m-%Y') }}</small
-			>
-		</div>
-		<h2>
-			<a
-				class="article-title"
-				href="{{url_for('posts.post', post_id=posts.items[post].id)}}"
-				>{{ posts.items[post].title }}</a
-			>
-		</h2>
-		<span class="article-content" id="{{posts.items[post].id}}"></span>
-	</div>
-</article>
-<script>
-	s = '{{ posts.items[post].content }}';
-	$('#{{ posts.items[post].id }}').html(
-		$.parseHTML(`${s.substr(0, 400)}...`)[0].data,
-	);
-</script>
+  <article class="media content-section">
+  	<img
+  		src="{{url_for('static',filename='profile_pics/'+posts.items[post].author.image_file)}}"
+  		alt=""
+  		class="rounded-circle article-img"
+  	/>
+  	<div class="media-body">
+  		<div class="article-metadata">
+  			<a
+  				class="mr-2"
+  				href="{{url_for('users.user_posts',post_id=posts.items[post].id, username=posts.items[post].author.username)}}"
+  				>{{ posts.items[post].author.username }}</a
+  			>
+  			<small class="text-muted" href="#"
+  				>{{ posts.items[post].created_at.strftime('%d-%m-%Y') }}</small
+  			>
+  		</div>
+  		<h2>
+  			<a
+  				class="article-title"
+  				href="{{url_for('posts.post', post_id=posts.items[post].id)}}"
+  				>{{ posts.items[post].title }}</a
+  			>
+  		</h2>
+  		<span class="article-content" id="{{posts.items[post].id}}"></span>
+  	</div>
+  </article>
+  <script>
+  	s = '{{ posts.items[post].content }}';
+  	$('#{{ posts.items[post].id }}').html(
+  		$.parseHTML(`${s.substr(0, 400)}...`)[0].data,
+  	);
+  </script>
 {%endfor%}
 
 <div class="blog-pagination">
 	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1,
-	right_current=2)%} {%if page_num%} {%if posts.page==page_num%}
-	<a
-		href="{{url_for('main.home', page=page_num)}}"
-		class="btn btn-info mb-4 aria-pressed='true'"
-		>{{page_num}}</a
-	>
-	{%else%}
-	<a
-		href="{{url_for('main.home', page=page_num)}}"
-		class="btn btn-outline-info mb-4"
-		>{{page_num}}</a
-	>
-	{%endif%} {%else%} ... {%endif%} {%endfor%}
+  right_current=2)%}
+
+  {%if page_num%}
+
+    {%if posts.page==page_num%}
+    	<a
+    		href="{{url_for('main.home', page=page_num)}}"
+    		class="btn btn-info mb-4 aria-pressed='true'"
+    		>{{page_num}}</a
+    	>
+  	{%else%}
+    	<a
+    		href="{{url_for('main.home', page=page_num)}}"
+    		class="btn btn-outline-info mb-4"
+    		>{{page_num}}</a
+    	>
+    {%endif%}
+  {%else%}
+  ...
+  {%endif%}
+
+{%endfor%}
 </div>
 {%endblock%}

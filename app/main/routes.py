@@ -9,7 +9,10 @@ main=Blueprint('main', __name__)
 def home():
     page=request.args.get('page', default=1, type=int)
     posts=Post.query.order_by(Post.created_at.desc()).paginate(per_page=3, page=page)
-    return render_template('home.html', posts=posts, featPost = posts.items[0])
+    featPost = []
+    if len(posts.items) > 0:
+      featPost = posts.items[0]
+    return render_template('home.html', posts=posts, featPost = featPost)
 
 
 @main.route('/about')
