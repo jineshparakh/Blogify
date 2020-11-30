@@ -22,8 +22,8 @@ def register():
             flash(f'Account Created for {form.username.data}!, you can now login :)', category='success')
             return redirect(url_for('users.login'))
         except:
-            flash(f'The user is already registered!! Try to login!!', category='danger')    
-        
+            flash(f'The user is already registered!! Try to login!!', category='danger')
+
 
     return render_template('register.html', title='Register', form=form)
 
@@ -41,10 +41,10 @@ def login():
             if next_page:
                 return redirect(next_page)
             else:
-                return redirect(url_for('main.home'))    
+                return redirect(url_for('main.home'))
         else:
-            flash(f'Login Unsuccessful. Please check the email and/or Password', 'danger')  
-              
+            flash(f'Login Unsuccessful. Please check the email and/or Password', 'danger')
+
     return render_template('login.html', title='Login', form=form)
 
 
@@ -70,7 +70,7 @@ def account():
         flash(f'Account Details Updated!!', category='success')
     elif request.method=='GET':
         form.username.data=current_user.username
-        form.email.data=current_user.email    
+        form.email.data=current_user.email
     image_file=url_for('static', filename='profile_pics/'+current_user.image_file)
     return render_template('account.html',title='Account', image_file=image_file, form=form)
 
@@ -79,7 +79,7 @@ def account():
 def user_posts(username):
     page=request.args.get('page', default=1, type=int)
     user=User.query.filter_by(username=username).first_or_404()
-    posts=Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=3)
+    posts=Post.query.filter_by(author=user).order_by(Post.created_at.desc()).paginate(page=page, per_page=3)
     return render_template('user_posts.html', posts=posts,user=user)
 
 
@@ -114,4 +114,4 @@ def reset_token(token):
         db.session.commit()
         flash(f'Password Updated! You can now login :)', category='success')
         return redirect(url_for('users.login'))
-    return render_template('reset_token.html',title='Reset Password',form=form)      
+    return render_template('reset_token.html',title='Reset Password',form=form)

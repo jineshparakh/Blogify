@@ -3,10 +3,10 @@
     {%if title%}
         <title>Flask Blog - {{title}}</title>
     {%else%}
-        <title>Flask Blog</title>    
-    {%endif%}    
-{%endblock%}    
-    
+        <title>Flask Blog</title>
+    {%endif%}
+{%endblock%}
+
 
 {%block body%}
     <h1 class="mb-3">Posts by {{user.username}}({{posts.total}})</h1>
@@ -16,7 +16,7 @@
             <div class="media-body">
             <div class="article-metadata">
                 <a class="mr-2" >{{ post.author.username }}</a>
-                <small class="text-muted" href='#'>{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
+                <small class="text-muted" href='#'>{{ post.created_at.strftime('%d-%m-%Y') }}</small>
             </div>
             <h2><a class="article-title" href="{{url_for('posts.post', post_id=post.id)}}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>

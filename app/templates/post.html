@@ -14,7 +14,7 @@
             <div class="media-body">
             <div class="article-metadata">
                 <a class="mr-2" href="{{url_for('users.user_posts',post_id=post.id,username=post.author.username)}}">{{ post.author.username }}</a>
-                <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
+                <small class="text-muted">{{ post.created_at.strftime('%d-%m-%Y') }}</small>
                 {% if post.author==current_user%}
                     <div>
                         <a href="{{url_for('posts.update_post', post_id=post.id)}}" class="btn btn-outline-info btn-sm mt-1 mb-1"> Update</a>
