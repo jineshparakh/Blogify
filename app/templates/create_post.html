@@ -1,67 +1,61 @@
-{% extends 'layout.html' %}
-{% block head %}
-  {%if title%}
-  <title>Flask Blog - {{title}}</title>
-  {%else%}
-  <title>Flask Blog</title>
-  {%endif%}
-  <link href="{{url_for('static', filename='vendors/bootstrap-markdown/css/bootstrap-markdown.min.css')}}"
-        rel="stylesheet"/>
-{% endblock head %}
+{% extends 'layout.html' %} {% block head %} {%if title%}
+<title>Blogify - {{title}}</title>
+{%else%}
+<title>Blogify</title>
+{%endif%}
+<link
+	href="{{url_for('static', filename='vendors/bootstrap-markdown/css/bootstrap-markdown.min.css')}}"
+	rel="stylesheet"
+/>
+{% endblock head %} {% block body %}
+<form class="form-horizontal mt-4" action="" method="POST">
+	{{ form.hidden_tag() }}
 
-{% block body %}
-<form class="form-horizontal" action="" method="POST">
+	<fieldset>
+		<!-- Form Name -->
+		<h3>Blog Editor</h3>
+		<!-- Text input-->
+		<div class="form-group">
+			{{form.title.label(class='form-control-label')}} {%if form.title.errors%}
+			{{form.title(class='form-control form-control-lg is-invalid')}}
+			<div class="invalid-feedback">
+				{%for error in form.title.errors%}
+				<span>{{error}}</span>
+				{%endfor%}
+			</div>
 
-    {{ form.hidden_tag() }}
+			{%else%} {{form.title(class='form-control form-control-lg')}} {%endif%}
+		</div>
 
-    <fieldset>
-        <!-- Form Name -->
-        <legend>Blog Editor</legend>
-        <!-- Text input-->
-        <div class="form-group">
-          {{form.title.label(class='form-control-label')}}
-          {%if form.title.errors%}
-              {{form.title(class='form-control form-control-lg is-invalid')}}
-              <div class="invalid-feedback">
-                  {%for error in form.title.errors%}
-                      <span>{{error}}</span>
-                  {%endfor%}
-              </div>
+		<!-- Text input-->
+		{{form.content.label(class='form-control-label')}} {%if
+		form.content.errors%} {{form.content(class='form-control form-control-lg
+		is-invalid')}}
+		<div class="invalid-feedback">
+			{%for error in form.content.errors%}
+			<span>{{error}}</span>
+			{%endfor%}
+		</div>
 
-          {%else%}
-              {{form.title(class='form-control form-control-lg')}}
-          {%endif%}
+		{%else%} {{form.content(class='form-control px-2 form-control-lg',
+		data_provide="markdown", rows="24", id='content-box')}} {%endif%}
 
-        </div>
-
-        <!-- Text input-->
-        {{form.content.label(class='form-control-label')}}
-        {%if form.content.errors%}
-            {{form.content(class='form-control form-control-lg is-invalid')}}
-            <div class="invalid-feedback">
-                {%for error in form.content.errors%}
-                    <span>{{error}}</span>
-                {%endfor%}
-            </div>
-
-        {%else%}
-            {{form.content(class='form-control px-2 form-control-lg', data_provide="markdown", rows="24", id='content-box')}}
-        {%endif%}
-
-        <div class="form-group mt-4">
-            <div class="col-md-offset-2">
-              {{form.submit(class='btn btn-outline-success')}}
-            </div>
-        </div>
-    </fieldset>
+		<div class="form-group mt-4">
+			<div class="col-md-offset-2">
+				{{form.submit(class='btn btn-outline-success')}}
+			</div>
+		</div>
+	</fieldset>
 </form>
-<script type="text/javascript"
-src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js">
-</script>
-<script type="text/javascript"
-src="{{url_for('static', filename='vendors/bootstrap-markdown/js/bootstrap-markdown.js')}}">
-</script>
+<script
+	type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js"
+></script>
+<script
+	type="text/javascript"
+	src="{{url_for('static', filename='vendors/bootstrap-markdown/js/bootstrap-markdown.js')}}"
+></script>
 <script>
-  $("#content-box").markdown({autofocus : true, iconlibrary : 'fa'})
+	$('#content-box').markdown({ autofocus: true, iconlibrary: 'fa' });
 </script>
 {% endblock body %}
