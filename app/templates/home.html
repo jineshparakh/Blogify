@@ -47,7 +47,7 @@
       </h1>
       {%if featPost.tags %}
         {% for tag in featPost.tags %}
-          <span class="badge badge-light">{{tag.value}}</span>
+          <a href="#" class="btn btn-light btn-sm">{{tag.value}}</a>
         {%endfor%}
       {%endif%}
   		<p class="lead my-3 text-white" id="feat-content"></p>
@@ -97,11 +97,11 @@
           <div class="my-2">
             {%if posts.items[post].tags %}
               {% for tag in posts.items[post].tags %}
-                <span class="badge badge-dark">{{tag.value}}</span>
+                <a href="#" class="btn btn-light btn-sm">{{tag.value}}</a>
               {%endfor%}
             {%endif%}
           </div>
-          <a href="{{url_for('posts.post', post_id=posts.items[post].id)}}" class="stretched-link btn btn-primary btn-sm">Read now</a>
+          <a href="{{url_for('posts.post', post_id=posts.items[post].id)}}" class="btn btn-primary btn-sm">Read now</a>
         </div>
       </div>
     </div>
