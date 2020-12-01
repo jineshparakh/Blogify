@@ -29,9 +29,11 @@ mail=Mail(app)
 from app.users.routes import users
 from app.main.routes import main
 from app.posts.routes import posts
+from app.tags.routes import tags
 
 app.register_blueprint(users)
 app.register_blueprint(main)
 app.register_blueprint(posts)
+app.register_blueprint(tags)
 
 from app.models import User, Post
