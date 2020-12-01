@@ -7,6 +7,10 @@
 	href="{{url_for('static', filename='vendors/bootstrap-markdown/css/bootstrap-markdown.min.css')}}"
 	rel="stylesheet"
 />
+<link
+	href="{{url_for('static', filename='vendors/bootstrap-multiselect/css/index.css')}}"
+	rel="stylesheet"
+/>
 {% endblock head %} {% block body %}
 <form class="form-horizontal mt-4" action="" method="POST">
 	{{ form.hidden_tag() }}
@@ -25,7 +29,25 @@
 			</div>
 
 			{%else%} {{form.title(class='form-control form-control-lg')}} {%endif%}
-		</div>
+    </div>
+
+
+    <div class="input-group mb-5">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="tags">Tags</label>
+      </div>
+      <select class="custom-select" id="tags" multiple="multiple" name='tags'>
+        {% for tag in tags %}
+        <option value="{{ tag.id }}">{{tag.value}}</option>
+        {%endfor%}
+      </select>
+      <div class="input-group-prepend">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagsModal">
+          Create Tag
+        </button>
+      </div>
+    </div>
+
 
 		<!-- Text input-->
 		{{form.content.label(class='form-control-label')}} {%if
@@ -47,6 +69,42 @@
 		</div>
 	</fieldset>
 </form>
+
+<div class="modal fade" id="tagsModal" tabindex="-1" aria-labelledby="tagsModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tagsModalLabel">New Tag</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/tags/new" onsubmit="$('#tagsModal').modal('hide')">
+      <div class="modal-body">
+          {{ tagForm.hidden_tag() }}
+          <div class="form-group">
+            {{tagForm.value.label(class='form-control-label')}}
+            {%if tagForm.value.errors%}
+            {{tagForm.value(class='form-control form-control-lg is-invalid')}}
+            <div class="invalid-feedback">
+              {%for error in tagForm.title.errors%}
+              <span>{{error}}</span>
+              {%endfor%}
+            </div>
+
+            {%else%} {{tagForm.value(class='form-control form-control-lg')}} {%endif%}
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
+          {{tagForm.submit(class='btn btn-primary')}}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script
 	type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js"
@@ -55,7 +113,16 @@
 	type="text/javascript"
 	src="{{url_for('static', filename='vendors/bootstrap-markdown/js/bootstrap-markdown.js')}}"
 ></script>
+<script
+	type="text/javascript"
+	src="{{url_for('static', filename='vendors/bootstrap-multiselect/js/index.js')}}"
+></script>
 <script>
 	$('#content-box').markdown({ autofocus: true, iconlibrary: 'fa' });
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#tags').multiselect();
+  });
 </script>
 {% endblock body %}
