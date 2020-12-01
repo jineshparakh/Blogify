@@ -1,8 +1,9 @@
+from app.tags.forms import TagForm
 from flask import Blueprint, render_template, url_for, flash, redirect, request, abort
 from flask_login import current_user, login_required
 from werkzeug.utils import html
 from app import db
-from app.models import Post
+from app.models import Post, Tag
 from app.posts.forms import PostForm
 import markdown
 
@@ -13,13 +14,17 @@ posts=Blueprint('posts', __name__)
 @login_required
 def new_post():
     form=PostForm()
+    tagForm = TagForm()
+    tags=Tag.query.all()
+    form.tags.choices = [(tag.id, tag.value) for tag in tags]
     if form.validate_on_submit():
-        post=Post(title=form.title.data, content=markdown.markdown(form.content.data).replace('\n', ''), author=current_user)
+        post=Post(title=form.title.data, content=markdown.markdown(form.content.data).replace('\n', ''), author=current_user, tags=Tag.query.filter(Tag.id.in_(form.tags.data)).all())
         db.session.add(post)
         db.session.commit()
         flash(f'Your Post has been created!!', category='success')
         return redirect(url_for('main.home'))
-    return render_template('create_post.html', title='New Post',legend='New Post', form=form)
+
+    return render_template('create_post.html', title='New Post',legend='New Post', form=form, tags=tags, tagForm=tagForm)
 
 
 @posts.route('/post/<int:post_id>')
