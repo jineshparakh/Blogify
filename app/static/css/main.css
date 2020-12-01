@@ -51,12 +51,6 @@ a.article-title:hover {
 	margin-right: 16px;
 }
 
-.article-metadata {
-	padding-bottom: 1px;
-	margin-bottom: 4px;
-	border-bottom: 1px solid #e3e3e3;
-}
-
 .article-metadata a:hover {
 	color: #333;
 	text-decoration: none;
@@ -157,14 +151,6 @@ h6 {
 	.h-md-250 {
 		height: 250px;
 	}
-}
-
-/* Pagination */
-.blog-pagination {
-	margin-bottom: 4rem;
-}
-.blog-pagination > .btn {
-	border-radius: 2rem;
 }
 
 /*
