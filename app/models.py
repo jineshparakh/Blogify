@@ -9,6 +9,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+
 class User(db.Model, UserMixin):
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String(20), unique=True,nullable=False)
@@ -45,5 +46,22 @@ class Post(db.Model):
     updated_at=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content=db.Column(db.Text, nullable=False)
     user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    tags = db.relationship('Tag', secondary='post_tag', lazy='dynamic', back_populates='posts')
+
     def __repr__(self):
         return f"Post('{self.title}', '{self.created_at}')"
+
+
+class Tag(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    value=db.Column(db.String(100), nullable=False)
+    posts = db.relationship('Post', secondary='post_tag', lazy='dynamic', back_populates='tags')
+    def __repr__(self):
+        return f"Tag('{self.value}')"
+
+
+# many-to-many association table: blog_post - blog_tag
+post_tag_table = db.Table('post_tag', db.metadata,
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+)
