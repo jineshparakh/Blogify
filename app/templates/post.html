@@ -95,7 +95,7 @@
     <div class="mt-2">
       {%if post.tags %}
               {% for tag in post.tags %}
-                <a href="#" class="btn btn-light btn-sm">{{tag.value}}</a>
+                <a href="{{url_for('tags.searchPostsViaTag', selectedTag=tag.value)}}" class="btn btn-light btn-sm">{{tag.value}}</a>
               {%endfor%}
       {%endif%}
     </div>
