@@ -40,16 +40,20 @@ def update_post(post_id):
     if post.author!=current_user:
         abort(403)
     form=PostForm()
+    tagForm = TagForm()
+    tags=Tag.query.all()
+    form.tags.choices = [(tag.id, tag.value) for tag in tags]
     if form.validate_on_submit():
         post.title=form.title.data
         post.content=markdown.markdown(form.content.data).replace('\n', '')
+        post.tags = Tag.query.filter(Tag.id.in_(form.tags.data)).all()
         db.session.commit()
         flash(f'Your Post has been updated!!', category='success')
         return redirect(url_for('posts.post', post_id=post.id))
     elif request.method=='GET':
         form.title.data=post.title
         form.content.data=post.content
-    return render_template('create_post.html', title='Update Post', legend='Update Post', form=form)
+    return render_template('create_post.html', title='Update Post', legend='Update Post', form=form, tags=tags, tagForm=tagForm)
 
 
 @posts.route('/post/<int:post_id>/delete', methods=['POST'])
