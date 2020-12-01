@@ -1,8 +1,15 @@
-{%extends 'layout.html'%} {%block head%} {%if title%}
-<title>Blogify - {{title}}</title>
+{%extends 'layout.html'%}
+{%block head%}
+{%if title%}
+  <title>Blogify - {{title}}</title>
 {%else%}
-<title>Blogify</title>
-{%endif%} {%endblock%} {%block body%}
+  <title>Blogify</title>
+{%endif%}
+<script
+	type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js"
+></script>
+{%endblock%} {%block body%}
 <article class="media content-section mt-4">
 	<img
 		src="{{url_for('static',filename='profile_pics/'+post.author.image_file)}}"
@@ -96,8 +103,10 @@
 	</div>
 </article>
 <script>
-	s = '{{ post.content }}';
-	$('#content').html($.parseHTML(s)[0].data);
+      s = '{{ post.content }}';
+      s = s.replace(/&#34;/g, '')
+      console.log(s)
+      document.getElementById('content').innerHTML = marked(`${s}`)
 </script>
 
 {%endblock%}

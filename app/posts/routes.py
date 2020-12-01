@@ -18,7 +18,7 @@ def new_post():
     tags=Tag.query.all()
     form.tags.choices = [(tag.id, tag.value) for tag in tags]
     if form.validate_on_submit():
-        post=Post(title=form.title.data, content=markdown.markdown(form.content.data).replace('\n', ''), author=current_user, tags=Tag.query.filter(Tag.id.in_(form.tags.data)).all())
+        post=Post(title=form.title.data, content=repr(form.content.data), author=current_user, tags=Tag.query.filter(Tag.id.in_(form.tags.data)).all())
         db.session.add(post)
         db.session.commit()
         flash(f'Your Post has been created!!', category='success')
@@ -45,7 +45,7 @@ def update_post(post_id):
     form.tags.choices = [(tag.id, tag.value) for tag in tags]
     if form.validate_on_submit():
         post.title=form.title.data
-        post.content=markdown.markdown(form.content.data).replace('\n', '')
+        post.content=repr(form.content.data)
         post.tags = Tag.query.filter(Tag.id.in_(form.tags.data)).all()
         db.session.commit()
         flash(f'Your Post has been updated!!', category='success')
