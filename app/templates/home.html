@@ -27,7 +27,7 @@
 
 {%endif%}
 
-{%if featPost | length > 0 and current_user.is_authenticated%}
+{%if featPost and current_user.is_authenticated%}
   <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark mt-4">
   	<div class="col-md-12 px-0">
   		<a
@@ -44,7 +44,12 @@
   				class="text-white"
   				>{{ featPost.title }}</a
   			>
-  		</h1>
+      </h1>
+      {%if featPost.tags %}
+        {% for tag in featPost.tags %}
+          <span class="badge badge-light">{{tag.value}}</span>
+        {%endfor%}
+      {%endif%}
   		<p class="lead my-3 text-white" id="feat-content"></p>
   		<a
   			href="{{url_for('posts.post', post_id=featPost.id)}}"
@@ -64,41 +69,43 @@
   </div>
 {%endif%}
 
-{% for post in range(1, posts.items | length) %}
-  <article class="media content-section">
-  	<img
-  		src="{{url_for('static',filename='profile_pics/'+posts.items[post].author.image_file)}}"
-  		alt=""
-  		class="rounded-circle article-img"
-  	/>
-  	<div class="media-body">
-  		<div class="article-metadata">
-  			<a
-  				class="mr-2"
-  				href="{{url_for('users.user_posts',post_id=posts.items[post].id, username=posts.items[post].author.username)}}"
-  				>{{ posts.items[post].author.username }}</a
-  			>
-  			<small class="text-muted" href="#"
-  				>{{ posts.items[post].created_at.strftime('%d-%m-%Y') }}</small
-  			>
-  		</div>
-  		<h2>
-  			<a
-  				class="article-title"
-  				href="{{url_for('posts.post', post_id=posts.items[post].id)}}"
-  				>{{ posts.items[post].title }}</a
-  			>
-  		</h2>
-  		<span class="article-content" id="{{posts.items[post].id}}"></span>
-  	</div>
-  </article>
-  <script>
-  	s = '{{ posts.items[post].content }}';
-  	$('#{{ posts.items[post].id }}').html(
-  		$.parseHTML(`${s.substr(0, 400)}...`)[0].data,
-  	);
-  </script>
-{%endfor%}
+{%if posts.items is iterable %}
+  {% for post in range(1, posts.items | length) %}
+    <article class="media content-section">
+    	<img
+    		src="{{url_for('static',filename='profile_pics/'+posts.items[post].author.image_file)}}"
+    		alt=""
+    		class="rounded-circle article-img"
+    	/>
+    	<div class="media-body">
+    		<div class="article-metadata">
+    			<a
+    				class="mr-2"
+    				href="{{url_for('users.user_posts',post_id=posts.items[post].id, username=posts.items[post].author.username)}}"
+    				>{{ posts.items[post].author.username }}</a
+    			>
+    			<small class="text-muted" href="#"
+    				>{{ posts.items[post].created_at.strftime('%d-%m-%Y') }}</small
+    			>
+    		</div>
+    		<h2>
+    			<a
+    				class="article-title"
+    				href="{{url_for('posts.post', post_id=posts.items[post].id)}}"
+    				>{{ posts.items[post].title }}</a
+    			>
+    		</h2>
+    		<span class="article-content" id="{{posts.items[post].id}}"></span>
+    	</div>
+    </article>
+    <script>
+    	s = '{{ posts.items[post].content }}';
+    	$('#{{ posts.items[post].id }}').html(
+    		$.parseHTML(`${s.substr(0, 400)}...`)[0].data,
+    	);
+    </script>
+  {%endfor%}
+{%endif%}
 
 <div class="blog-pagination">
 	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1,
