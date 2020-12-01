@@ -27,7 +27,7 @@
 
 {%endif%}
 
-{%if featPost and current_user.is_authenticated%}
+{%if featPost %}
   <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark mt-4">
   	<div class="col-md-12 px-0">
   		<a
@@ -71,7 +71,7 @@
 
 {%if posts.items is iterable %}
   {% for post in range(1, posts.items | length) %}
-    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 h-md-200 position-relative">
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 h-md-200 position-relative bg-white">
       <div class="col p-4 d-flex flex-column position-static">
         <div class="d-flex align-items-center">
           <img
