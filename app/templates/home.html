@@ -47,7 +47,7 @@
       </h1>
       {%if featPost.tags %}
         {% for tag in featPost.tags %}
-          <a href="#" class="btn btn-light btn-sm">{{tag.value}}</a>
+          <a href="{{url_for('tags.searchPostsViaTag', selectedTag=tag.value)}}" class="btn btn-light btn-sm">{{tag.value}}</a>
         {%endfor%}
       {%endif%}
   		<p class="lead my-3 text-white" id="feat-content"></p>
@@ -65,7 +65,8 @@
   </div>
 {%elif  current_user.is_authenticated%}
   <div class="alert alert-light my-5 text-center">
-    <h1 class="">	Wow such empty.</h1>
+    <h1 class="">No Posts To Show!</h1>
+    <h4>Want to express yourself by posting?</h4>
   	<a href="{{url_for('posts.new_post')}}" class="text-white text-wrap btn btn-primary  btn-lg">Post now!</a>
   </div>
 {%endif%}
@@ -98,7 +99,7 @@
           <div class="my-2">
             {%if posts.items[post].tags %}
               {% for tag in posts.items[post].tags %}
-                <a href="#" class="btn btn-light btn-sm">{{tag.value}}</a>
+                <a href="{{url_for('tags.searchPostsViaTag', selectedTag=tag.value)}}" class="btn btn-light btn-sm">{{tag.value}}</a>
               {%endfor%}
             {%endif%}
           </div>

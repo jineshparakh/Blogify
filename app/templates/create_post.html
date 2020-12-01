@@ -38,7 +38,12 @@
       </div>
       <select class="custom-select" id="tags" multiple="multiple" name='tags'>
         {% for tag in tags %}
+        {%if tag in selectedTags%}
+
+        <option value="{{ tag.id }}" selected>{{tag.value}}</option>
+        {%else%}
         <option value="{{ tag.id }}">{{tag.value}}</option>
+        {%endif%}
         {%endfor%}
       </select>
       <div class="input-group-prepend">

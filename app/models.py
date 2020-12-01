@@ -54,14 +54,19 @@ class Post(db.Model):
 
 class Tag(db.Model):
     id=db.Column(db.Integer, primary_key=True)
-    value=db.Column(db.String(100), nullable=False)
+    value=db.Column(db.String(100), nullable=False, unique=True)
     posts = db.relationship('Post', secondary='post_tag', lazy='dynamic', back_populates='tags')
     def __repr__(self):
         return f"Tag('{self.value}')"
 
 
-# many-to-many association table: blog_post - blog_tag
-post_tag_table = db.Table('post_tag', db.metadata,
-    db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
-    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
-)
+# # many-to-many association table: blog_post - blog_tag
+# post_tag_table = db.Table('post_tag', db.metadata,
+#     db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+#     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+# )
+
+class PostTag(db.Model):
+    __tablename__ = 'post_tag'
+    post_id=db.Column('post_id', db.Integer, db.ForeignKey('post.id'),primary_key = True)
+    tag_id=db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'),primary_key = True)

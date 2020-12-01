@@ -53,6 +53,8 @@ def update_post(post_id):
     elif request.method=='GET':
         form.title.data=post.title
         form.content.data=post.content
+        selectedTags=post.tags 
+        return render_template('create_post.html', title='Update Post', legend='Update Post', form=form, tags=tags, tagForm=tagForm, selectedTags=selectedTags)
     return render_template('create_post.html', title='Update Post', legend='Update Post', form=form, tags=tags, tagForm=tagForm)
 
 
