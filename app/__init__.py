@@ -10,6 +10,7 @@ from flask_mail import Mail
 app=Flask(__name__)
 
 app.config['SECRET_KEY']=os.environ['SECRET_KEY']
+
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///site.db'
 
 db=SQLAlchemy(app)
@@ -24,6 +25,8 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS']=False
 app.config['MAIL_USERNAME']=os.environ['MAIL_USERNAME']
 app.config['MAIL_PASSWORD']=os.environ['MAIL_PASSSWORD']
+
+
 mail=Mail(app)
 
 
