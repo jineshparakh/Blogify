@@ -43,13 +43,13 @@
 {%endfor%} {% for page_num in posts.iter_pages(left_edge=1, right_edge=1,
 left_current=1, right_current=2)%} {%if page_num%} {%if posts.page==page_num%}
 <a
-	href="{{url_for('tags.searchPostsViaTag',selectedTag=tag.value,page=page_num)}}"
+	href="{{url_for('tags.searchPostsViaTag',selectedTag=tag,page=page_num)}}"
 	class="btn btn-info mb-4 aria-pressed='true'"
 	>{{page_num}}</a
 >
 {%else%}
 <a
-	href="{{url_for('tags.searchPostsViaTag',selectedTag=tag.value,page=page_num)}}"
+	href="{{url_for('tags.searchPostsViaTag',selectedTag=tag,page=page_num)}}"
 	class="btn btn-outline-info mb-4"
 	>{{page_num}}</a
 >

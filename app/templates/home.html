@@ -60,6 +60,7 @@
   	<script>
       s = '{{ featPost.content }}';
       s = s.replace(/&#34;/g, '')
+      s = s.replace(/&#39;/g, '')
       document.getElementById('feat-content').innerHTML = marked(`${s.substr(0, 500)}`)
   	</script>
   </div>

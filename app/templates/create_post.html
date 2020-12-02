@@ -123,7 +123,12 @@
 	src="{{url_for('static', filename='vendors/bootstrap-multiselect/js/index.js')}}"
 ></script>
 <script>
-	$('#content-box').markdown({ autofocus: true, iconlibrary: 'fa' });
+  $('#content-box').markdown({ autofocus: true, iconlibrary: 'fa' });
+
+  s = "{{ form.content.data }}"
+  s = s.replace(/&#34;/g, '')
+  s = s.replace(/&#39;/g, '')
+  $('#content-box').html(s)
 </script>
 <script type="text/javascript">
   $(document).ready(function() {

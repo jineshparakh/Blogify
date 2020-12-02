@@ -105,6 +105,7 @@
 <script>
       s = '{{ post.content }}';
       s = s.replace(/&#34;/g, '')
+      s = s.replace(/&#39;/g, '')
       console.log(s)
       document.getElementById('content').innerHTML = marked(`${s}`)
 </script>
